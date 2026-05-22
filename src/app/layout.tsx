@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Lim Jun Hao | Product Designer",
+  title: "Lim Jun Hao | Web Developer",
   description: "Digital craftsman building premium interactive experiences.",
 };
 
