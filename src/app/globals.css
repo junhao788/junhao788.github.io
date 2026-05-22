@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  
+  --color-mint: #76EAD7;
+  --color-pink: #FF4B91;
+  --color-orange: #FF7B54;
+  --color-yellow: #FFD369;
+  --color-lime: #C1FF72;
+}
+
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+@layer base {
+  h1, h2, h3 {
+    @apply font-bold tracking-tighter uppercase;
+    max-width: 100%;
+  }
+}
+
+.grid-bg {
+  background-image: 
+    linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.sticker-shadow {
+  box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+}
+
+/* High-performance pre-blurred ambient glowing orbs */
+.glow-orb-1 {
+  background: radial-gradient(circle at center, rgba(245, 158, 11, 0.22) 0%, rgba(249, 115, 22, 0.08) 35%, rgba(0, 0, 0, 0) 70%);
+  will-change: transform, opacity;
+}
+
+.glow-orb-2 {
+  background: radial-gradient(circle at center, rgba(132, 204, 22, 0.25) 0%, rgba(16, 185, 129, 0.12) 35%, rgba(0, 0, 0, 0) 70%);
+  will-change: transform, opacity;
+}
+
+.glow-orb-3 {
+  background: radial-gradient(circle at center, rgba(219, 39, 119, 0.25) 0%, rgba(225, 29, 72, 0.08) 35%, rgba(0, 0, 0, 0) 70%);
+  will-change: transform, opacity;
+}
+
