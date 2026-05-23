@@ -1,7 +1,7 @@
 'use client';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { ArrowDown, Globe, Sparkles, Zap, Star } from 'lucide-react';
+import { ArrowDown, Globe, Sparkles, Zap, Star, ExternalLink } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Sticker from '@/components/Sticker';
 import Image from 'next/image';
@@ -245,7 +245,8 @@ export default function Home() {
                 color: '#76EAD7',
                 description: 'A modern and dynamic digital business card designed to be shared seamlessly across all platforms. Built with a sleek, responsive interface and featuring quick-action buttons for immediate connectivity, CardLink redefines the first impression in the digital age.',
                 tech: ['Vite', 'Javascript', 'Tailwind CSS', 'MongoDB', 'Vercel', 'Render', 'Stripe'],
-                image: '/cardlink.png'
+                image: '/cardlink.png',
+                link: 'https://www.cardlink.asia/'
               },
               {
                 title: 'FILPAL DIRECTORY SYSTEM',
@@ -253,7 +254,8 @@ export default function Home() {
                 color: '#FF4B91',
                 description: 'A high-performance directory system forFilipino community, featuring a real-time database and a user-friendly interface for seamless information sharing.',
                 tech: ['PHP', 'MySQL', 'Javascript'],
-                image: '/filpal.png'
+                image: '/filpal.png',
+                link: 'https://filpal.gamer.gd/index.php'
               },
               {
                 title: 'WARRENTEXT',
@@ -261,7 +263,8 @@ export default function Home() {
                 color: '#FF7B54',
                 description: 'Modern warranty management platform for retail shops. Issue warranties in seconds, manage claims effortlessly, and keep your customers satisfied.',
                 tech: ['React', 'Typescript', 'Tailwind CSS', 'Render'],
-                image: '/warrentext.png'
+                image: '/warrentext.png',
+                link: 'https://www.warrentext.com/'
               },
             ].map((project, idx) => (
               <motion.div
@@ -307,9 +310,19 @@ export default function Home() {
                         <div className="flex flex-col md:flex-row justify-between items-start gap-8">
                           <div className="max-w-2xl">
                             <h4 className="text-xl font-bold mb-4">Project Overview</h4>
-                            <p className="text-zinc-400 text-lg leading-relaxed">
+                            <p className="text-zinc-400 text-lg leading-relaxed mb-6">
                               {project.description}
                             </p>
+                            {project.link && (
+                              <a
+                                href={project.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 px-6 py-3 bg-lime-400 text-black font-bold uppercase tracking-widest rounded-full hover:bg-lime-300 hover:scale-105 transition-all text-sm"
+                              >
+                                Visit Project <ExternalLink size={16} />
+                              </a>
+                            )}
                           </div>
 
                           <div>
