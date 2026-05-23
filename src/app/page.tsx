@@ -1,6 +1,6 @@
 'use client';
-import { motion, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { useRef, useState } from 'react';
 import { ArrowDown, Globe, Sparkles, Zap, Star, ExternalLink } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Sticker from '@/components/Sticker';
@@ -15,25 +15,6 @@ export default function Home() {
 
   const textY = useTransform(scrollYProgress, [0, 1], [0, -200]);
   const imageY = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  
-  // Interactive Mouse Parallax
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springConfig = { damping: 25, stiffness: 150 };
-  const smoothMouseX = useSpring(mouseX, springConfig);
-  const smoothMouseY = useSpring(mouseY, springConfig);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set((e.clientX / window.innerWidth - 0.5) * 2);
-      mouseY.set((e.clientY / window.innerHeight - 0.5) * 2);
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [mouseX, mouseY]);
-
-  const backgroundX = useTransform(smoothMouseX, [-1, 1], [30, -30]);
-  const backgroundY = useTransform(smoothMouseY, [-1, 1], [30, -30]);
   const rotateS1 = useTransform(scrollYProgress, [0, 1], [-8, 15]);
   const rotateS2 = useTransform(scrollYProgress, [0, 1], [5, -20]);
   const [expandedProject, setExpandedProject] = useState<number | null>(null);
@@ -83,7 +64,6 @@ export default function Home() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        style={{ x: backgroundX, y: backgroundY }}
         transition={{ duration: 1.5, ease: "easeOut" }}
         className="fixed inset-0 w-screen h-screen overflow-hidden pointer-events-none z-0"
       >
@@ -150,26 +130,13 @@ export default function Home() {
           <div className="relative z-10 w-full px-6 md:px-0 md:pl-36 md:pr-28 lg:pl-48 lg:pr-40">
             <motion.div style={{ y: textY, willChange: 'transform' }} className="relative max-w-full">
               <motion.h1
+                initial={{ opacity: 0, y: 80 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                 className="text-[16vw] sm:text-[13vw] md:text-[14vw] lg:text-[12vw] font-black leading-[0.8] tracking-tighter text-[#F0F0F0] break-words relative z-10"
               >
-                <div className="overflow-hidden pb-4 -mb-4 pt-4 -mt-4">
-                  <motion.div
-                    initial={{ y: "100%", rotate: 8 }}
-                    animate={{ y: 0, rotate: 0 }}
-                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-                  >
-                    JUN HAO
-                  </motion.div>
-                </div>
-                <div className="overflow-hidden pb-4 -mb-4 pt-4 -mt-4">
-                  <motion.div
-                    initial={{ y: "100%", rotate: 8 }}
-                    animate={{ y: 0, rotate: 0 }}
-                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-                  >
-                    <span className="text-zinc-800 outline-text">LIM</span>
-                  </motion.div>
-                </div>
+                JUN HAO<br />
+                <span className="text-zinc-800 outline-text">LIM</span>
               </motion.h1>
 
               <motion.div
