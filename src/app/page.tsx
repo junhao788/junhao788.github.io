@@ -277,7 +277,7 @@ export default function Home() {
                 role: "Intern (8 Weeks)",
                 company: "Bitechain Technology",
                 details: "Supervisor: Sky Yap",
-                description: "[Description reserved for future update]",
+                description: "Developed a corporate website utilizing WordPress. Simultaneously ventured into the Web3 ecosystem, mastering the fundamentals of Solidity and decentralized smart contract architecture.",
                 color: "#FF4B91"
               },
               {
@@ -285,7 +285,7 @@ export default function Home() {
                 role: "Part-time Developer",
                 company: "Bitechain Technology",
                 details: "",
-                description: "[Description reserved for future update]",
+                description: "Retained post-internship to actively contribute to Web3 initiatives. Focused on the development and deployment of foundational smart contracts, bridging the gap between theory and practical blockchain applications.",
                 color: "#FFD369"
               },
               {
