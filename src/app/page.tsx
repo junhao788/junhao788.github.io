@@ -274,9 +274,9 @@ export default function Home() {
               },
               {
                 year: "Jan 2022",
-                role: "Intern (8 Weeks)",
+                role: "Diploma Intern",
                 company: "Bitechain Technology",
-                details: "Supervisor: Sky Yap",
+                details: "Duration: 8 Weeks • Supervisor: Sky Yap",
                 description: "Developed a corporate website utilizing WordPress. Simultaneously ventured into the Web3 ecosystem, mastering the fundamentals of Solidity and decentralized smart contract architecture.",
                 color: "#FF4B91"
               },
