@@ -577,10 +577,13 @@ export default function Home() {
                     <div>
                       <p className="text-xs font-mono uppercase tracking-widest text-zinc-500 mb-2">SOCIALS</p>
                       <div className="flex flex-col gap-2">
-                        {['Twitter / X', 'GitHub', 'LinkedIn'].map((social) => (
-                          <a key={social} href="#" className="text-sm font-medium hover:text-lime-400 transition-colors flex items-center gap-2">
+                        {[
+                          { name: 'GitHub', url: 'https://github.com/junhao788' },
+                          { name: 'LinkedIn', url: 'https://www.linkedin.com/in/limjunhao77' }
+                        ].map((social) => (
+                          <a key={social.name} href={social.url} target="_blank" rel="noopener noreferrer" className="text-sm font-medium hover:text-lime-400 transition-colors flex items-center gap-2">
                             <Globe size={14} className="text-zinc-500" />
-                            <span>{social}</span>
+                            <span>{social.name}</span>
                           </a>
                         ))}
                       </div>
