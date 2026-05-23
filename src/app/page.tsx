@@ -19,13 +19,41 @@ export default function Home() {
   const rotateS2 = useTransform(scrollYProgress, [0, 1], [5, -20]);
   const [expandedProject, setExpandedProject] = useState<number | null>(null);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
-  const handleSendEmail = (e: React.FormEvent) => {
+  const handleSendEmail = async (e: React.FormEvent) => {
     e.preventDefault();
-    const recipient = process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'howwerd0898@gmail.com';
-    const subject = encodeURIComponent(`Portfolio Inquiry from ${formData.name}`);
-    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`);
-    window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+    setStatus('loading');
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "3abcc26e-6e22-4f42-bd66-89e5d80bc52c",
+          from_name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          subject: `Portfolio Inquiry from ${formData.name}`,
+        }),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => setStatus('idle'), 5000); // Reset after 5 seconds
+      } else {
+        setStatus('error');
+        setTimeout(() => setStatus('idle'), 5000);
+      }
+    } catch (error) {
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
+    }
   };
 
   return (
@@ -426,13 +454,14 @@ export default function Home() {
                 </div>
 
                 <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ scale: status === 'loading' ? 1 : 1.02 }}
+                  whileTap={{ scale: status === 'loading' ? 1 : 0.98 }}
                   type="submit"
-                  className="w-full bg-lime-400 hover:bg-lime-300 text-black font-black uppercase tracking-widest py-5 rounded-2xl flex items-center justify-center gap-3 transition-all cursor-pointer shadow-lg shadow-lime-400/20"
+                  disabled={status === 'loading'}
+                  className="w-full bg-lime-400 hover:bg-lime-300 text-black font-black uppercase tracking-widest py-5 rounded-2xl flex items-center justify-center gap-3 transition-all cursor-pointer shadow-lg shadow-lime-400/20 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  <span>SEND MESSAGE</span>
-                  <Sparkles size={20} />
+                  <span>{status === 'loading' ? 'SENDING...' : status === 'success' ? 'SENT SUCCESSFULLY!' : status === 'error' ? 'ERROR! TRY AGAIN' : 'SEND MESSAGE'}</span>
+                  {status === 'idle' && <Sparkles size={20} />}
                 </motion.button>
               </motion.form>
 
