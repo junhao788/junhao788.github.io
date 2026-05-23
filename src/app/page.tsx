@@ -265,28 +265,12 @@ export default function Home() {
           <div className="relative border-l border-white/10 pl-8 md:pl-12 space-y-24">
             {[
               {
-                year: "2026",
-                role: "Intern (12 Weeks)",
-                company: "[Company Name Reserved]",
-                details: "Supervisor: [Reserved]",
-                description: "[Description reserved for future update]",
-                color: "#FF4B91"
-              },
-              {
-                year: "2024 — 2026",
-                role: "Bachelor in Computer Science",
-                company: "Swinburne University of Technology",
-                details: "Major: Software Development • CGPA: 1.9",
+                year: "2021 — 2023",
+                role: "Diploma in Computer Science",
+                company: "INTI International College Subang",
+                details: "CGPA: 2.7",
                 description: "",
                 color: "#76EAD7"
-              },
-              {
-                year: "Mar — Oct 2022",
-                role: "Part-time Developer",
-                company: "Bitechain Technology",
-                details: "",
-                description: "[Description reserved for future update]",
-                color: "#FFD369"
               },
               {
                 year: "Jan 2022",
@@ -297,12 +281,28 @@ export default function Home() {
                 color: "#FF4B91"
               },
               {
-                year: "2021 — 2023",
-                role: "Diploma in Computer Science",
-                company: "INTI International College Subang",
-                details: "CGPA: 2.7",
+                year: "Mar — Oct 2022",
+                role: "Part-time Developer",
+                company: "Bitechain Technology",
+                details: "",
+                description: "[Description reserved for future update]",
+                color: "#FFD369"
+              },
+              {
+                year: "2024 — 2026",
+                role: "Bachelor in Computer Science",
+                company: "Swinburne University of Technology",
+                details: "Major: Software Development • CGPA: 1.9",
                 description: "",
                 color: "#76EAD7"
+              },
+              {
+                year: "2026",
+                role: "Intern (12 Weeks)",
+                company: "[Company Name Reserved]",
+                details: "Supervisor: [Reserved]",
+                description: "[Description reserved for future update]",
+                color: "#FF4B91"
               }
             ].map((item, idx) => (
               <motion.div 
@@ -315,7 +315,7 @@ export default function Home() {
               >
                 {/* Glowing Node on Timeline */}
                 <div 
-                  className="absolute -left-[37px] md:-left-[53px] top-1.5 w-3 h-3 rounded-full border border-black transition-transform duration-500 group-hover:scale-150"
+                  className="absolute -left-8 md:-left-12 -translate-x-[50%] top-2 w-3 h-3 rounded-full border border-black transition-transform duration-500 group-hover:scale-150"
                   style={{ backgroundColor: item.color, boxShadow: `0 0 15px ${item.color}` }}
                 />
 
