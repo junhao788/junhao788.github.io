@@ -255,6 +255,90 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Experience Section */}
+        <section id="experience" className="py-32 border-t border-white/10 overflow-hidden px-6 md:px-0 md:pl-36 md:pr-28 lg:pl-48 lg:pr-40 relative">
+          <div className="flex flex-col mb-20">
+            <h2 className="text-[10vw] md:text-[8vw] font-black leading-none outline-text text-zinc-800">JOURNEY</h2>
+            <p className="text-zinc-500 font-mono text-sm uppercase tracking-widest mt-4">Education & Experience</p>
+          </div>
+
+          <div className="relative border-l border-white/10 pl-8 md:pl-12 space-y-24">
+            {[
+              {
+                year: "2026",
+                role: "Intern (12 Weeks)",
+                company: "[Company Name Reserved]",
+                details: "Supervisor: [Reserved]",
+                description: "[Description reserved for future update]",
+                color: "#FF4B91"
+              },
+              {
+                year: "2024 — 2026",
+                role: "Bachelor in Computer Science",
+                company: "Swinburne University of Technology",
+                details: "Major: Software Development • CGPA: 1.9",
+                description: "",
+                color: "#76EAD7"
+              },
+              {
+                year: "Mar — Oct 2022",
+                role: "Part-time Developer",
+                company: "Bitechain Technology",
+                details: "",
+                description: "[Description reserved for future update]",
+                color: "#FFD369"
+              },
+              {
+                year: "Jan 2022",
+                role: "Intern (8 Weeks)",
+                company: "Bitechain Technology",
+                details: "Supervisor: Sky Yap",
+                description: "[Description reserved for future update]",
+                color: "#FF4B91"
+              },
+              {
+                year: "2021 — 2023",
+                role: "Diploma in Computer Science",
+                company: "INTI International College Subang",
+                details: "CGPA: 2.7",
+                description: "",
+                color: "#76EAD7"
+              }
+            ].map((item, idx) => (
+              <motion.div 
+                key={idx}
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                viewport={{ once: true, margin: "-100px" }}
+                className="relative group"
+              >
+                {/* Glowing Node on Timeline */}
+                <div 
+                  className="absolute -left-[37px] md:-left-[53px] top-1.5 w-3 h-3 rounded-full border border-black transition-transform duration-500 group-hover:scale-150"
+                  style={{ backgroundColor: item.color, boxShadow: `0 0 15px ${item.color}` }}
+                />
+
+                <div className="flex flex-col gap-2">
+                  <span className="font-mono text-sm text-zinc-500 tracking-widest">{item.year}</span>
+                  <h3 className="text-3xl md:text-4xl font-black text-white">{item.role}</h3>
+                  <h4 className="text-xl font-medium" style={{ color: item.color }}>{item.company}</h4>
+                  
+                  {item.details && (
+                    <p className="text-sm font-mono text-zinc-400 mt-1 uppercase tracking-wider">{item.details}</p>
+                  )}
+                  
+                  {item.description && (
+                    <p className="text-zinc-400 text-lg leading-relaxed mt-4 max-w-2xl">
+                      {item.description}
+                    </p>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
         {/* Project Reveal Section (Horizontal Feel) */}
         <section id="work" className="py-32 border-t border-white/10 overflow-hidden px-6 md:px-0 md:pl-36 md:pr-28 lg:pl-48 lg:pr-40">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
