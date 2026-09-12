@@ -116,62 +116,27 @@ export default function Home() {
         {/* Kinetic Hero Section */}
         <section
           data-hero-mode={heroMode}
-          className="hero-section relative min-h-[100svh] w-full flex flex-col justify-start lg:justify-center pt-24 sm:pt-28 lg:pt-0 overflow-hidden"
+          className="hero-section relative min-h-[100dvh] w-full overflow-hidden px-5 pb-12 pt-24 sm:px-8 sm:pb-16 sm:pt-28 lg:grid lg:grid-cols-[minmax(0,1.25fr)_minmax(280px,0.75fr)] lg:items-center lg:gap-8 lg:py-14 lg:pl-40 lg:pr-24 xl:gap-12"
         >
-          {/* Natural-colour portrait, kept clear of the hero copy */}
-          <motion.div
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="hero-portrait absolute bottom-0 right-0 lg:bottom-12 lg:right-16 lg:w-[31%] xl:w-[33%] lg:h-[72%] pointer-events-none z-0"
-          >
-            <div className="relative w-full h-full overflow-hidden rounded-t-2xl lg:rounded-2xl">
-              <Image
-                src="/junhao-hero-color.jpg"
-                alt="Jun Hao Lim Portrait"
-                fill
-                sizes="(max-width: 639px) 78vw, (max-width: 1023px) 64vw, 33vw"
-                loading="eager"
-                className="object-cover object-[center_27%]"
-              />
-            </div>
-          </motion.div>
-
-          {/* Hero Content Container with Side Padding for Sidebars */}
-          <div className="hero-content relative z-10 w-full px-5 sm:px-8 lg:pl-48 lg:pr-40">
-            <motion.div style={{ y: textY, willChange: 'transform' }} className="hero-title-block relative max-w-full">
+          <div className="hero-content relative z-10 min-w-0">
+            <motion.div style={{ y: textY, willChange: 'transform' }} className="hero-title-block relative">
               <motion.h1
                 initial={{ opacity: 0, y: 80 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                className="text-[clamp(3.35rem,16vw,7rem)] sm:text-[clamp(5.5rem,13vw,7.5rem)] lg:text-[min(12vw,10rem)] font-black leading-[0.82] tracking-[-0.04em] text-[#F0F0F0] break-words relative z-10"
+                className="text-[clamp(3.35rem,14.4vw,6.5rem)] sm:text-[clamp(5.5rem,10vw,8rem)] lg:text-[clamp(4.75rem,7.5vw,8rem)] font-black leading-[0.9] tracking-[-0.04em] text-[#F0F0F0]"
               >
                 JUN HAO<br />
                 <span className="text-zinc-800 outline-text">LIM</span>
               </motion.h1>
-
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5, rotate: -30 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                className="hero-sticker absolute z-20 w-20 h-20 sm:w-28 sm:h-28 lg:w-44 lg:h-44 lg:top-[70%] lg:left-[50%]"
-              >
-                <Sticker
-                  text="CODER"
-                  color="#FF4B91"
-                  rotation={12}
-                  className="w-full h-full rounded-full"
-                  icon={<Zap className="w-5 h-5 md:w-6 md:h-6" />}
-                />
-              </motion.div>
             </motion.div>
 
-            <div className="hero-lower mt-7 sm:mt-10 lg:mt-12 flex flex-col lg:flex-row items-start lg:items-end justify-between lg:justify-start gap-6 lg:gap-12 relative z-20">
+            <div className="hero-lower mt-7 flex flex-col items-start gap-6 sm:mt-9 lg:mt-12 lg:gap-8">
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="hero-bio w-full max-w-[19rem] sm:max-w-md"
+                className="hero-bio w-full max-w-[34rem]"
               >
                 <p className="text-base sm:text-lg lg:text-xl font-bold leading-snug text-white mb-3">
                   Frontend &amp; Full-Stack Developer
@@ -198,13 +163,46 @@ export default function Home() {
               </motion.div>
             </div>
           </div>
+
+          {/* The portrait follows the introduction in both visual and reading order. */}
+          <motion.div
+            initial={{ opacity: 0, x: 60 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="hero-portrait relative z-10 mt-9 aspect-[4/5] w-full max-w-[34rem] justify-self-end sm:mx-auto sm:max-w-[28rem] lg:mx-0 lg:mt-0 lg:max-w-[30rem]"
+          >
+            <div className="relative h-full w-full overflow-hidden rounded-2xl">
+              <Image
+                src="/junhao-hero-color.jpg"
+                alt="Jun Hao Lim Portrait"
+                fill
+                sizes="(max-width: 639px) calc(100vw - 40px), (max-width: 1023px) 544px, 480px"
+                loading="eager"
+                className="object-cover object-[center_27%]"
+              />
+            </div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5, rotate: -30 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="hero-sticker pointer-events-none absolute bottom-4 left-4 z-20 h-20 w-20 sm:h-24 sm:w-24 lg:-left-10 lg:bottom-8 lg:h-28 lg:w-28"
+            >
+              <Sticker
+                text="CODER"
+                color="#FF4B91"
+                rotation={12}
+                className="h-full w-full rounded-full"
+                icon={<Zap className="h-5 w-5 md:h-6 md:w-6" />}
+              />
+            </motion.div>
+          </motion.div>
         </section>
 
         {/* The "Asymmetric Fragment" Section */}
-        <section id="about" className="relative min-h-screen py-20 sm:py-24 lg:py-32 grid grid-cols-12 gap-8 lg:gap-6 px-5 sm:px-8 lg:pl-48 lg:pr-40">
+        <section id="about" className="relative grid grid-cols-1 items-center gap-8 px-5 py-20 sm:gap-12 sm:px-8 sm:py-24 lg:min-h-[80dvh] lg:grid-cols-12 lg:gap-14 lg:py-28 lg:pl-40 lg:pr-24">
 
           {/* Left Side - Large Portrait with Parallax */}
-          <div className="col-span-12 lg:col-span-7 relative h-[28rem] sm:h-[38rem] lg:h-screen">
+          <div className="relative min-w-0 h-[24rem] sm:h-[30rem] lg:col-span-6 lg:h-[36rem]">
             <motion.div
               style={{ y: imageY, willChange: 'transform' }}
               className="relative w-full h-full rounded-3xl overflow-hidden bg-zinc-900 border border-white/5"
@@ -231,9 +229,9 @@ export default function Home() {
           </div>
 
           {/* Right Side - Stacked Information & Floating Assets */}
-          <div className="col-span-12 lg:col-span-5 flex flex-col justify-center gap-10 sm:gap-14 lg:gap-16 relative pb-20 lg:pb-0">
+          <div className="relative min-w-0 flex flex-col justify-center gap-8 sm:gap-10 lg:col-span-6 lg:gap-12">
             <div className="relative">
-              <h2 className="text-[clamp(2.8rem,12vw,4.5rem)] font-black mb-6 sm:mb-8 leading-[0.95]">
+              <h2 className="text-[clamp(2.5rem,11vw,4.5rem)] font-black mb-6 sm:mb-8 leading-[0.95] lg:text-[clamp(2.8rem,5.3vw,4.5rem)] xl:text-[clamp(2.8rem,12vw,4.5rem)]">
                 CRAFTING <br /> THE <span className="text-lime-400">UNEXPECTED</span>
               </h2>
               <p className="text-zinc-400 text-base sm:text-lg leading-relaxed max-w-[68ch] lg:max-w-sm">
@@ -241,7 +239,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-3">
               {['HTML', 'CSS', 'JavaScript', 'React', 'Next.js', 'MongoDB', 'Typescript', 'Tailwind CSS'].map((skill, idx) => (
                 <motion.span
                   key={skill}
@@ -255,13 +253,13 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Floating "Cloud" of small stickers */}
-            <motion.div style={{ rotate: rotateS2, willChange: 'transform' }} className="absolute -bottom-10 left-[50%] -ml-[64px] md:-ml-[80px] lg:left-auto lg:ml-0 lg:right-10 z-20">
+            {/* The existing badge stays with the About content instead of crossing sections. */}
+            <motion.div style={{ rotate: rotateS2, willChange: 'transform' }} className="relative z-20 mr-5 h-28 w-28 self-end md:h-32 md:w-32 lg:mr-8">
               <Sticker
                 text="OPEN FOR&#10;WORK"
                 color="#FFD369"
                 rotation={15}
-                className="w-32 h-32 md:w-40 md:h-40 rounded-full text-sm"
+                className="w-28 h-28 md:w-32 md:h-32 rounded-full text-sm"
                 icon={<Star size={16} />}
               />
             </motion.div>
@@ -269,7 +267,7 @@ export default function Home() {
         </section>
 
         {/* Experience Section */}
-        <section id="experience" className="py-20 sm:py-24 lg:py-32 border-t border-white/10 overflow-hidden px-5 sm:px-8 lg:pl-48 lg:pr-40 relative">
+        <section id="experience" className="py-20 sm:py-24 lg:py-28 border-t border-white/10 overflow-hidden px-5 sm:px-8 lg:pl-40 lg:pr-24 relative">
           <div className="flex flex-col mb-14 sm:mb-20">
             <h2 className="text-[clamp(3rem,12vw,6rem)] font-black leading-none outline-text text-zinc-800">JOURNEY</h2>
             <p className="text-zinc-500 font-mono text-sm uppercase tracking-widest mt-4">Education & Experience</p>
@@ -353,17 +351,35 @@ export default function Home() {
         </section>
 
         {/* Project Reveal Section (Horizontal Feel) */}
-        <section id="work" className="py-20 sm:py-24 lg:py-32 border-t border-white/10 overflow-hidden px-5 sm:px-8 lg:pl-48 lg:pr-40">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 sm:mb-16 gap-6 sm:gap-8">
+        <section id="work" className="py-20 sm:py-24 lg:py-28 border-t border-white/10 overflow-hidden px-5 sm:px-8 lg:pl-40 lg:pr-24">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-10 sm:mb-14 gap-5 sm:gap-8">
             <h2 className="text-[clamp(3rem,12vw,6rem)] font-black leading-none outline-text text-zinc-800">PROJECTS</h2>
             <div className="text-left sm:text-right">
               <p className="text-zinc-500 font-mono text-sm mb-2">001 — 004</p>
-              <p className="text-xl font-bold uppercase tracking-widest underline underline-offset-4 decoration-lime-400">View All Projects</p>
+              <p className="text-sm font-bold uppercase tracking-widest text-zinc-400">View All Projects</p>
             </div>
           </div>
 
           <div className="space-y-1">
             {[
+              {
+                title: 'HIGGSPAY',
+                category: 'Web3 Payment Gateway',
+                color: '#FFD369',
+                description: 'A dual-engine Web3 payment experience designed for multi-chain customer payments and autonomous AI agent payments, with non-custodial USDC settlement flows.',
+                tech: ['React', 'Vite', 'Vercel'],
+                image: '/higgspay.png',
+                link: 'https://higgs-website-orpin.vercel.app/'
+              },
+              {
+                title: 'WARRENTEXT',
+                category: 'Digital Warranty System',
+                color: '#FF7B54',
+                description: 'Modern warranty management platform for retail shops. Issue warranties in seconds, manage claims effortlessly, and keep your customers satisfied.',
+                tech: ['React', 'Typescript', 'Tailwind CSS', 'Render'],
+                image: '/warrentext.png',
+                link: 'https://www.warrentext.com/'
+              },
               {
                 title: 'CARDLINK',
                 category: 'Digital Business Card',
@@ -381,24 +397,6 @@ export default function Home() {
                 tech: ['PHP', 'MySQL', 'Javascript'],
                 image: '/filpal.png',
                 link: 'https://filpal.gamer.gd/index.php'
-              },
-              {
-                title: 'WARRENTEXT',
-                category: 'Digital Warranty System',
-                color: '#FF7B54',
-                description: 'Modern warranty management platform for retail shops. Issue warranties in seconds, manage claims effortlessly, and keep your customers satisfied.',
-                tech: ['React', 'Typescript', 'Tailwind CSS', 'Render'],
-                image: '/warrentext.png',
-                link: 'https://www.warrentext.com/'
-              },
-              {
-                title: 'HIGGSPAY',
-                category: 'Web3 Payment Gateway',
-                color: '#FFD369',
-                description: 'A dual-engine Web3 payment experience designed for multi-chain customer payments and autonomous AI agent payments, with non-custodial USDC settlement flows.',
-                tech: ['React', 'Vite', 'Vercel'],
-                image: '/higgspay.png',
-                link: 'https://higgs-website-orpin.vercel.app/'
               },
             ].map((project, idx) => (
               <motion.div
@@ -499,15 +497,15 @@ export default function Home() {
         </section>
 
         {/* Contact Me Section */}
-        <section id="contact" className="min-h-screen py-20 sm:py-24 lg:py-32 flex flex-col justify-center px-5 sm:px-8 lg:pl-48 lg:pr-40 relative border-t border-white/10 z-10">
+        <section id="contact" className="min-h-screen py-20 sm:py-24 lg:py-28 flex flex-col justify-center px-5 sm:px-8 lg:pl-40 lg:pr-24 relative border-t border-white/10 z-10">
           <div className="max-w-6xl w-full mx-auto">
             {/* Section Header */}
-            <div className="mb-12 sm:mb-16 lg:mb-20">
+            <div className="mb-10 sm:mb-12 lg:mb-14">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-3 h-3 rounded-full bg-lime-400 animate-pulse" />
                 <span className="font-mono text-xs uppercase tracking-[0.3em] text-lime-400 font-bold">AVAILABLE FOR WORK & PROJECTS</span>
               </div>
-              <h2 className="text-[clamp(2.8rem,12vw,6rem)] font-black leading-[0.94] tracking-[-0.04em]">
+              <h2 className="text-[clamp(2.8rem,10vw,5rem)] font-black leading-[0.98] tracking-[-0.04em]">
                 LET&apos;S BUILD <br />
                 <span className="text-zinc-800 outline-text">SOMETHING</span> TOGETHER
               </h2>
@@ -653,7 +651,7 @@ export default function Home() {
 
       <style jsx global>{`
         .outline-text {
-          -webkit-text-stroke: 1px #333;
+          -webkit-text-stroke: 1px #686868;
           color: transparent;
         }
         .outline-text:hover {

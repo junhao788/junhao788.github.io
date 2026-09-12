@@ -6,12 +6,16 @@ import { fileURLToPath } from 'node:url';
 
 const testDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(testDirectory, '..');
-const homePage = fs.readFileSync(path.join(projectRoot, 'src', 'app', 'page.tsx'), 'utf8');
+const html = fs.readFileSync(path.join(projectRoot, 'out', 'index.html'), 'utf8');
 
-test('lists Higgspay as the fourth portfolio project', () => {
-  assert.match(homePage, /001 — 004/);
-  assert.match(homePage, /title: 'HIGGSPAY'/);
-  assert.match(homePage, /link: 'https:\/\/higgs-website-orpin\.vercel\.app\/'/);
+test('renders projects in the requested priority order', () => {
+  const titles = [...html.matchAll(/<h3[^>]*>(HIGGSPAY|WARRENTEXT|CARDLINK|FILPAL DIRECTORY SYSTEM)<\/h3>/g)]
+    .map((match) => match[1]);
+
+  assert.deepEqual(titles, ['HIGGSPAY', 'WARRENTEXT', 'CARDLINK', 'FILPAL DIRECTORY SYSTEM']);
+});
+
+test('keeps the Higgspay project image available', () => {
   assert.equal(
     fs.existsSync(path.join(projectRoot, 'public', 'higgspay.png')),
     true,
