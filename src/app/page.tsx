@@ -1,10 +1,11 @@
 'use client';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowDown, Globe, Sparkles, Zap, Star, ExternalLink } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Sticker from '@/components/Sticker';
 import Image from 'next/image';
+import { getHeroMode } from '@/lib/responsive-layout.mjs';
 
 export default function Home() {
   const targetRef = useRef(null);
@@ -20,6 +21,14 @@ export default function Home() {
   const [expandedProject, setExpandedProject] = useState<number | null>(null);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [heroMode, setHeroMode] = useState<'compact' | 'mobile' | 'desktop'>('mobile');
+
+  useEffect(() => {
+    const updateHeroMode = () => setHeroMode(getHeroMode(window.innerWidth, window.innerHeight));
+    updateHeroMode();
+    window.addEventListener('resize', updateHeroMode);
+    return () => window.removeEventListener('resize', updateHeroMode);
+  }, []);
 
   const handleSendEmail = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,7 +59,7 @@ export default function Home() {
         setStatus('error');
         setTimeout(() => setStatus('idle'), 5000);
       }
-    } catch (error) {
+    } catch {
       setStatus('error');
       setTimeout(() => setStatus('idle'), 5000);
     }
@@ -105,35 +114,37 @@ export default function Home() {
       <div className="w-full max-w-full">
 
         {/* Kinetic Hero Section */}
-        <section className="relative h-screen w-full flex flex-col justify-start lg:justify-center pt-24 lg:pt-0 overflow-hidden">
-          {/* Personal Image Container - Exact Right Bottom Corner */}
+        <section
+          data-hero-mode={heroMode}
+          className="hero-section relative min-h-[100svh] w-full flex flex-col justify-start lg:justify-center pt-24 sm:pt-28 lg:pt-0 overflow-hidden"
+        >
+          {/* Natural-colour portrait, kept clear of the hero copy */}
           <motion.div
             initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute bottom-0 right-0 lg:right-16 w-[80%] lg:w-[45%] xl:w-[40%] h-[50%] lg:h-[90%] pointer-events-none z-0 opacity-80 lg:opacity-100"
+            className="hero-portrait absolute bottom-0 right-0 lg:bottom-12 lg:right-16 lg:w-[31%] xl:w-[33%] lg:h-[72%] pointer-events-none z-0"
           >
-            <div className="relative w-full h-full pointer-events-auto">
+            <div className="relative w-full h-full overflow-hidden rounded-t-2xl lg:rounded-2xl">
               <Image
-                src="/portrait.png"
+                src="/junhao-hero-color.jpg"
                 alt="Jun Hao Lim Portrait"
                 fill
-                className="object-contain object-bottom object-right opacity-85 filter contrast-125 grayscale hover:grayscale-0 transition-all duration-700"
+                sizes="(max-width: 639px) 78vw, (max-width: 1023px) 64vw, 33vw"
+                loading="eager"
+                className="object-cover object-[center_27%]"
               />
-              {/* Subtle gradient overlays to seamlessly blend the image into the black background */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent pointer-events-none" />
-              <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-transparent pointer-events-none" />
             </div>
           </motion.div>
 
           {/* Hero Content Container with Side Padding for Sidebars */}
-          <div className="relative z-10 w-full px-6 md:px-0 md:pl-36 md:pr-28 lg:pl-48 lg:pr-40">
-            <motion.div style={{ y: textY, willChange: 'transform' }} className="relative max-w-full">
+          <div className="hero-content relative z-10 w-full px-5 sm:px-8 lg:pl-48 lg:pr-40">
+            <motion.div style={{ y: textY, willChange: 'transform' }} className="hero-title-block relative max-w-full">
               <motion.h1
                 initial={{ opacity: 0, y: 80 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                className="text-[16vw] sm:text-[13vw] md:text-[14vw] lg:text-[12vw] font-black leading-[0.8] tracking-tighter text-[#F0F0F0] break-words relative z-10"
+                className="text-[clamp(3.35rem,16vw,7rem)] sm:text-[clamp(5.5rem,13vw,7.5rem)] lg:text-[min(12vw,10rem)] font-black leading-[0.82] tracking-[-0.04em] text-[#F0F0F0] break-words relative z-10"
               >
                 JUN HAO<br />
                 <span className="text-zinc-800 outline-text">LIM</span>
@@ -143,30 +154,30 @@ export default function Home() {
                 initial={{ opacity: 0, scale: 0.5, rotate: -30 }}
                 animate={{ opacity: 1, scale: 1, rotate: 0 }}
                 transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute top-[85%] right-[25%] lg:top-[70%] lg:right-auto lg:left-[50%] -translate-y-1/2 z-20"
+                className="hero-sticker absolute z-20 w-20 h-20 sm:w-28 sm:h-28 lg:w-44 lg:h-44 lg:top-[70%] lg:left-[50%]"
               >
                 <Sticker
                   text="CODER"
                   color="#FF4B91"
                   rotation={12}
-                  className="w-24 h-24 md:w-36 md:h-36 lg:w-44 lg:h-44 rounded-full"
+                  className="w-full h-full rounded-full"
                   icon={<Zap className="w-5 h-5 md:w-6 md:h-6" />}
                 />
               </motion.div>
             </motion.div>
 
-            <div className="mt-8 lg:mt-12 flex flex-col lg:flex-row items-start lg:items-end justify-between gap-8 lg:gap-12 relative z-20">
+            <div className="hero-lower mt-7 sm:mt-10 lg:mt-12 flex flex-col lg:flex-row items-start lg:items-end justify-between lg:justify-start gap-6 lg:gap-12 relative z-20">
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full max-w-[85%] lg:max-w-md"
+                className="hero-bio w-full max-w-[19rem] sm:max-w-md"
               >
-                <p className="text-zinc-500 text-sm uppercase tracking-widest mb-4 font-bold">Biography</p>
-                <p className="font-mono text-lg md:text-xl font-normal leading-relaxed text-zinc-200 tracking-wide">
-                  Final-year Computer Science student.
-                  Architecting high-performance systems
-                  & premium interfaces for the modern web.
+                <p className="text-base sm:text-lg lg:text-xl font-bold leading-snug text-white mb-3">
+                  Frontend &amp; Full-Stack Developer
+                </p>
+                <p className="hero-bio-copy font-mono text-base sm:text-lg lg:text-xl font-normal leading-relaxed text-zinc-200 tracking-wide">
+                  Building web experiences for FinTech and Web3.
                 </p>
               </motion.div>
 
@@ -174,6 +185,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className="hero-scroll"
               >
                 <motion.div
                   animate={{ y: [0, 10, 0] }}
@@ -189,20 +201,21 @@ export default function Home() {
         </section>
 
         {/* The "Asymmetric Fragment" Section */}
-        <section id="about" className="relative min-h-screen py-32 grid grid-cols-12 gap-6 px-6 md:px-0 md:pl-36 md:pr-28 lg:pl-48 lg:pr-40">
+        <section id="about" className="relative min-h-screen py-20 sm:py-24 lg:py-32 grid grid-cols-12 gap-8 lg:gap-6 px-5 sm:px-8 lg:pl-48 lg:pr-40">
 
           {/* Left Side - Large Portrait with Parallax */}
-          <div className="col-span-12 lg:col-span-7 relative h-[50vh] md:h-[80vh] lg:h-screen">
+          <div className="col-span-12 lg:col-span-7 relative h-[28rem] sm:h-[38rem] lg:h-screen">
             <motion.div
               style={{ y: imageY, willChange: 'transform' }}
               className="relative w-full h-full rounded-3xl overflow-hidden bg-zinc-900 border border-white/5"
             >
               <div className="absolute inset-0 grid-bg opacity-20" />
               <Image
-                src="/portrait.png"
-                alt="Portrait"
+                src="/junhao-chibi-laptop-transparent.png"
+                alt="Jun Hao Lim holding a laptop"
                 fill
-                className="object-cover object-bottom scale-110"
+                sizes="(max-width: 1023px) calc(100vw - 40px), 56vw"
+                className="object-contain object-bottom"
               />
 
               {/* Overlay Stickers on the Image */}
@@ -218,13 +231,13 @@ export default function Home() {
           </div>
 
           {/* Right Side - Stacked Information & Floating Assets */}
-          <div className="col-span-12 lg:col-span-5 flex flex-col justify-center gap-16 relative">
+          <div className="col-span-12 lg:col-span-5 flex flex-col justify-center gap-10 sm:gap-14 lg:gap-16 relative pb-20 lg:pb-0">
             <div className="relative">
-              <h2 className="text-5xl md:text-7xl font-black mb-8 leading-none">
+              <h2 className="text-[clamp(2.8rem,12vw,4.5rem)] font-black mb-6 sm:mb-8 leading-[0.95]">
                 CRAFTING <br /> THE <span className="text-lime-400">UNEXPECTED</span>
               </h2>
-              <p className="text-zinc-400 text-lg leading-relaxed max-w-sm">
-                I don't just build websites; I create digital environments that feel alive. My process is a mix of rigorous research and expressive motion.
+              <p className="text-zinc-400 text-base sm:text-lg leading-relaxed max-w-[68ch] lg:max-w-sm">
+                I don&apos;t just build websites; I create digital environments that feel alive. My process is a mix of rigorous research and expressive motion.
               </p>
             </div>
 
@@ -235,7 +248,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.1 }}
-                  className="px-6 py-3 bg-white/5 border border-white/10 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-lime-400 hover:text-black hover:border-lime-400 transition-all cursor-default"
+                  className="px-4 sm:px-6 py-3 bg-white/5 border border-white/10 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-lime-400 hover:text-black hover:border-lime-400 transition-all cursor-default"
                 >
                   {skill}
                 </motion.span>
@@ -256,13 +269,13 @@ export default function Home() {
         </section>
 
         {/* Experience Section */}
-        <section id="experience" className="py-32 border-t border-white/10 overflow-hidden px-6 md:px-0 md:pl-36 md:pr-28 lg:pl-48 lg:pr-40 relative">
-          <div className="flex flex-col mb-20">
-            <h2 className="text-[10vw] md:text-[8vw] font-black leading-none outline-text text-zinc-800">JOURNEY</h2>
+        <section id="experience" className="py-20 sm:py-24 lg:py-32 border-t border-white/10 overflow-hidden px-5 sm:px-8 lg:pl-48 lg:pr-40 relative">
+          <div className="flex flex-col mb-14 sm:mb-20">
+            <h2 className="text-[clamp(3rem,12vw,6rem)] font-black leading-none outline-text text-zinc-800">JOURNEY</h2>
             <p className="text-zinc-500 font-mono text-sm uppercase tracking-widest mt-4">Education & Experience</p>
           </div>
 
-          <div className="relative border-l border-white/10 pl-8 md:pl-12 space-y-24">
+          <div className="relative border-l border-white/10 pl-7 sm:pl-10 md:pl-12 space-y-16 sm:space-y-20 lg:space-y-24">
             {[
               {
                 year: "2021 — 2023",
@@ -298,10 +311,10 @@ export default function Home() {
               },
               {
                 year: "2026",
-                role: "Intern (12 Weeks)",
-                company: "[Company Name Reserved]",
-                details: "Supervisor: [Reserved]",
-                description: "[Description reserved for future update]",
+                role: "Degree Intern",
+                company: "Bitechain Technology",
+                details: "Duration: 12 Weeks • Supervisor: Sky Yap",
+                description: "Developed web experiences and worked on x402 payment flows.",
                 color: "#FF4B91"
               }
             ].map((item, idx) => (
@@ -315,21 +328,21 @@ export default function Home() {
               >
                 {/* Glowing Node on Timeline */}
                 <div 
-                  className="absolute -left-8 md:-left-12 -translate-x-[50%] top-2 w-3 h-3 rounded-full border border-black transition-transform duration-500 group-hover:scale-150"
+                  className="absolute -left-7 sm:-left-10 md:-left-12 -translate-x-[50%] top-2 w-3 h-3 rounded-full border border-black transition-transform duration-500 group-hover:scale-150"
                   style={{ backgroundColor: item.color, boxShadow: `0 0 15px ${item.color}` }}
                 />
 
                 <div className="flex flex-col gap-2">
                   <span className="font-mono text-sm text-zinc-500 tracking-widest">{item.year}</span>
-                  <h3 className="text-3xl md:text-4xl font-black text-white">{item.role}</h3>
-                  <h4 className="text-xl font-medium" style={{ color: item.color }}>{item.company}</h4>
+                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-white break-words">{item.role}</h3>
+                  <h4 className="text-lg sm:text-xl font-medium" style={{ color: item.color }}>{item.company}</h4>
                   
                   {item.details && (
                     <p className="text-sm font-mono text-zinc-400 mt-1 uppercase tracking-wider">{item.details}</p>
                   )}
                   
                   {item.description && (
-                    <p className="text-zinc-400 text-lg leading-relaxed mt-4 max-w-2xl">
+                    <p className="text-zinc-400 text-base sm:text-lg leading-relaxed mt-4 max-w-[68ch]">
                       {item.description}
                     </p>
                   )}
@@ -340,11 +353,11 @@ export default function Home() {
         </section>
 
         {/* Project Reveal Section (Horizontal Feel) */}
-        <section id="work" className="py-32 border-t border-white/10 overflow-hidden px-6 md:px-0 md:pl-36 md:pr-28 lg:pl-48 lg:pr-40">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
-            <h2 className="text-[10vw] md:text-[8vw] font-black leading-none outline-text text-zinc-800">PROJECTS</h2>
-            <div className="text-right">
-              <p className="text-zinc-500 font-mono text-sm mb-2">001 — 003</p>
+        <section id="work" className="py-20 sm:py-24 lg:py-32 border-t border-white/10 overflow-hidden px-5 sm:px-8 lg:pl-48 lg:pr-40">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 sm:mb-16 gap-6 sm:gap-8">
+            <h2 className="text-[clamp(3rem,12vw,6rem)] font-black leading-none outline-text text-zinc-800">PROJECTS</h2>
+            <div className="text-left sm:text-right">
+              <p className="text-zinc-500 font-mono text-sm mb-2">001 — 004</p>
               <p className="text-xl font-bold uppercase tracking-widest underline underline-offset-4 decoration-lime-400">View All Projects</p>
             </div>
           </div>
@@ -378,25 +391,37 @@ export default function Home() {
                 image: '/warrentext.png',
                 link: 'https://www.warrentext.com/'
               },
+              {
+                title: 'HIGGSPAY',
+                category: 'Web3 Payment Gateway',
+                color: '#FFD369',
+                description: 'A dual-engine Web3 payment experience designed for multi-chain customer payments and autonomous AI agent payments, with non-custodial USDC settlement flows.',
+                tech: ['React', 'Vite', 'Vercel'],
+                image: '/higgspay.png',
+                link: 'https://higgs-website-orpin.vercel.app/'
+              },
             ].map((project, idx) => (
               <motion.div
                 key={project.title}
                 className="border-b border-white/5 overflow-hidden transition-colors"
               >
-                <motion.div
+                <motion.button
+                  type="button"
                   onClick={() => setExpandedProject(expandedProject === idx ? null : idx)}
+                  aria-expanded={expandedProject === idx}
+                  aria-controls={`project-details-${idx}`}
                   animate={{
                     backgroundColor: expandedProject === idx ? project.color : 'rgba(0, 0, 0, 0)',
                     color: expandedProject === idx ? '#000' : '#fff'
                   }}
                   whileHover={{ backgroundColor: project.color, color: '#000' }}
                   transition={{ duration: 0.2, ease: "circOut" }}
-                  className="group flex items-center justify-between py-12 px-8 cursor-pointer relative z-10"
+                  className="group flex w-full items-center justify-between py-8 sm:py-10 lg:py-12 px-3 sm:px-6 lg:px-8 cursor-pointer relative z-10 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-lime-400"
                 >
-                  <div className="flex items-start lg:items-baseline gap-8">
+                  <div className="flex min-w-0 items-start lg:items-baseline gap-4 sm:gap-6 lg:gap-8">
                     <span className={`font-mono text-xs mt-3 lg:mt-0 transition-colors ${expandedProject === idx ? 'text-black opacity-100' : 'text-zinc-500 group-hover:text-black'}`}>0{idx + 1}</span>
-                    <div className="flex flex-col gap-3 lg:gap-0">
-                      <h3 className="text-4xl md:text-6xl font-black">{project.title}</h3>
+                    <div className="flex min-w-0 flex-col gap-3 lg:gap-0">
+                      <h3 className="text-[clamp(1.6rem,8vw,3.75rem)] leading-[0.95] font-black break-words">{project.title}</h3>
                       <span className={`lg:hidden font-bold text-sm tracking-[0.3em] uppercase transition-colors ${expandedProject === idx ? 'opacity-100 text-black' : 'opacity-40 group-hover:opacity-100 group-hover:text-black'}`}>
                         {project.category}
                       </span>
@@ -405,24 +430,25 @@ export default function Home() {
                   <span className={`hidden lg:block font-bold text-sm tracking-[0.3em] uppercase transition-colors ${expandedProject === idx ? 'opacity-100 text-black' : 'opacity-40 group-hover:opacity-100 group-hover:text-black'}`}>
                     {project.category}
                   </span>
-                </motion.div>
+                </motion.button>
 
                 {/* Expandable Content Area */}
                 <AnimatePresence>
                   {expandedProject === idx && (
                     <motion.div
+                      id={`project-details-${idx}`}
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                      className="px-8 pb-12 overflow-hidden"
+                      className="px-3 sm:px-6 lg:px-8 pb-10 sm:pb-12 overflow-hidden"
                     >
-                      <div className="flex flex-col gap-12 pt-8 border-t border-white/10">
+                      <div className="flex flex-col gap-8 sm:gap-10 lg:gap-12 pt-7 sm:pt-8 border-t border-white/10">
                         {/* Top Section: Details & Tech Stack */}
                         <div className="flex flex-col md:flex-row justify-between items-start gap-8">
                           <div className="max-w-2xl">
                             <h4 className="text-xl font-bold mb-4">Project Overview</h4>
-                            <p className="text-zinc-400 text-lg leading-relaxed mb-6">
+                            <p className="text-zinc-400 text-base sm:text-lg leading-relaxed mb-6 max-w-[68ch]">
                               {project.description}
                             </p>
                             {project.link && (
@@ -430,7 +456,7 @@ export default function Home() {
                                 href={project.link}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 px-6 py-3 bg-lime-400 text-black font-bold uppercase tracking-widest rounded-full hover:bg-lime-300 hover:scale-105 transition-all text-sm"
+                                className="inline-flex min-h-11 items-center gap-2 px-6 py-3 bg-lime-400 text-black font-bold uppercase tracking-widest rounded-full hover:bg-lime-300 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-all text-sm"
                               >
                                 Visit Project <ExternalLink size={16} />
                               </a>
@@ -450,14 +476,15 @@ export default function Home() {
                         </div>
 
                         {/* Bottom Section: Image Container */}
-                        <div className="w-full h-[350px] sm:h-[450px] md:h-[500px] relative rounded-3xl overflow-hidden bg-zinc-950 border border-white/10 group flex items-center justify-center p-4 md:p-8 shadow-2xl">
+                        <div className="w-full relative rounded-2xl sm:rounded-3xl overflow-hidden bg-zinc-950 border border-white/10 group flex items-center justify-center p-2 sm:p-4 lg:p-8 shadow-2xl">
                           {/* High-end subtle grid background */}
                           <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:2rem_2rem]" />
-                          <div className="relative w-full h-full z-10 overflow-hidden rounded-2xl border border-white/5 shadow-2xl">
+                          <div className="relative w-full aspect-[1708/820] z-10 overflow-hidden rounded-xl sm:rounded-2xl border border-white/5 shadow-2xl">
                             <Image
                               src={project.image}
                               alt={project.title}
                               fill
+                              sizes="(max-width: 639px) calc(100vw - 64px), (max-width: 1023px) calc(100vw - 112px), calc(100vw - 440px)"
                               className="object-contain object-center opacity-90 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-700"
                             />
                           </div>
@@ -472,22 +499,22 @@ export default function Home() {
         </section>
 
         {/* Contact Me Section */}
-        <section id="contact" className="min-h-screen py-32 flex flex-col justify-center px-6 md:px-0 md:pl-36 md:pr-28 lg:pl-48 lg:pr-40 relative border-t border-white/10 z-10">
+        <section id="contact" className="min-h-screen py-20 sm:py-24 lg:py-32 flex flex-col justify-center px-5 sm:px-8 lg:pl-48 lg:pr-40 relative border-t border-white/10 z-10">
           <div className="max-w-6xl w-full mx-auto">
             {/* Section Header */}
-            <div className="mb-20">
+            <div className="mb-12 sm:mb-16 lg:mb-20">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-3 h-3 rounded-full bg-lime-400 animate-pulse" />
                 <span className="font-mono text-xs uppercase tracking-[0.3em] text-lime-400 font-bold">AVAILABLE FOR WORK & PROJECTS</span>
               </div>
-              <h2 className="text-5xl sm:text-6xl md:text-8xl font-black leading-none tracking-tight">
-                LET'S BUILD <br />
+              <h2 className="text-[clamp(2.8rem,12vw,6rem)] font-black leading-[0.94] tracking-[-0.04em]">
+                LET&apos;S BUILD <br />
                 <span className="text-zinc-800 outline-text">SOMETHING</span> TOGETHER
               </h2>
             </div>
 
             {/* Content Grid: Left Form, Right Details & HIRE ME badge */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
               {/* Left Side - Interactive Glassmorphic Form */}
               <motion.form
                 initial={{ opacity: 0, y: 40 }}
@@ -495,12 +522,12 @@ export default function Home() {
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
                 onSubmit={handleSendEmail}
-                className="lg:col-span-7 space-y-6 bg-white/5 border border-white/10 p-8 md:p-12 rounded-3xl backdrop-blur-md shadow-2xl relative group"
+                className="lg:col-span-7 space-y-6 bg-white/5 border border-white/10 p-5 sm:p-8 lg:p-12 rounded-2xl sm:rounded-3xl backdrop-blur-md shadow-2xl relative group"
               >
                 {/* Subtle ambient glow behind form */}
                 <div className="absolute -inset-1 bg-gradient-to-r from-lime-500/20 to-purple-500/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 pointer-events-none" />
 
-                <div className="relative grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="relative grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-xs font-mono uppercase tracking-widest text-zinc-400 mb-2">01 / Your Name</label>
                     <input
@@ -562,13 +589,13 @@ export default function Home() {
                     <p className="text-xs font-mono uppercase tracking-widest text-zinc-500 mb-3">DIRECT INQUIRIES</p>
                     <a
                       href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'howwerd0898@gmail.com'}`}
-                      className="text-lg sm:text-xl md:text-2xl lg:text-xl xl:text-2xl font-bold hover:text-lime-400 transition-all duration-300 inline-block max-w-full truncate border-b-2 border-white/20 hover:border-lime-400 pb-1"
+                      className="text-base sm:text-xl md:text-2xl lg:text-xl xl:text-2xl font-bold hover:text-lime-400 transition-all duration-300 inline-block max-w-full break-all border-b-2 border-white/20 hover:border-lime-400 pb-1"
                     >
                       {process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'howwerd0898@gmail.com'}
                     </a>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-8 pt-6 border-t border-white/10">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-6 border-t border-white/10">
                     <div>
                       <p className="text-xs font-mono uppercase tracking-widest text-zinc-500 mb-2">LOCATION</p>
                       <p className="text-lg font-medium">Kuala Lumpur, MY</p>
@@ -613,7 +640,7 @@ export default function Home() {
             </div>
 
             {/* Footer Copyright */}
-            <div className="mt-32 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-zinc-500 gap-4">
+            <div className="mt-20 sm:mt-24 lg:mt-32 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-zinc-500 gap-4">
               <p className="flex items-center gap-2">
                 <span>CRAFTED WITH PASSION</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-lime-400 animate-ping" />
