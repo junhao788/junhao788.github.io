@@ -38,9 +38,36 @@ html {
   outline-color: var(--color-lime);
 }
 
+.portfolio-primary-link {
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+
+.portfolio-primary-link:hover {
+  background-color: var(--color-lime);
+  transform: translateY(-2px);
+}
+
+.hero-bio a:focus-visible,
+.project-preview-image:focus-visible {
+  outline: 2px solid var(--color-lime);
+  outline-offset: 5px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .portfolio-primary-link,
+  .portfolio-primary-link svg,
+  .project-preview img {
+    transition: none;
+    transform: none;
+  }
+
+  .portfolio-primary-link:hover,
+  .project-preview:hover img {
+    transform: none;
   }
 }
 

@@ -1,7 +1,7 @@
 'use client';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import { ArrowDown, Globe, Sparkles, Zap, Star, ExternalLink } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, Download, Plus, Globe, Sparkles, Zap, Star, ExternalLink } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Sticker from '@/components/Sticker';
 import Image from 'next/image';
@@ -18,7 +18,7 @@ export default function Home() {
   const imageY = useTransform(scrollYProgress, [0, 1], [0, 100]);
   const rotateS1 = useTransform(scrollYProgress, [0, 1], [-8, 15]);
   const rotateS2 = useTransform(scrollYProgress, [0, 1], [5, -20]);
-  const [expandedProject, setExpandedProject] = useState<number | null>(null);
+  const [expandedProject, setExpandedProject] = useState<number | null>(0);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [heroMode, setHeroMode] = useState<'compact' | 'mobile' | 'desktop'>('mobile');
@@ -66,7 +66,7 @@ export default function Home() {
   };
 
   return (
-    <main ref={targetRef} className="min-h-[200vh] bg-black text-white selection:bg-lime-400 selection:text-black overflow-x-hidden">
+    <main ref={targetRef} className="relative min-h-[200vh] bg-black text-white selection:bg-lime-400 selection:text-black overflow-x-hidden">
       <Navigation />
 
       {/* Edge-to-Edge Premium Animated Background - Fixed for Seamless Linking Across All Sections */}
@@ -121,7 +121,7 @@ export default function Home() {
           <div className="hero-content relative z-10 min-w-0">
             <motion.div style={{ y: textY, willChange: 'transform' }} className="hero-title-block relative">
               <motion.h1
-                initial={{ opacity: 0, y: 80 }}
+                initial={{ opacity: 1, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                 className="text-[clamp(3.35rem,14.4vw,6.5rem)] sm:text-[clamp(5.5rem,10vw,8rem)] lg:text-[clamp(4.75rem,7.5vw,8rem)] font-black leading-[0.9] tracking-[-0.04em] text-[#F0F0F0]"
@@ -133,7 +133,7 @@ export default function Home() {
 
             <div className="hero-lower mt-7 flex flex-col items-start gap-6 sm:mt-9 lg:mt-12 lg:gap-8">
               <motion.div
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 1, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="hero-bio w-full max-w-[34rem]"
@@ -144,10 +144,19 @@ export default function Home() {
                 <p className="hero-bio-copy font-mono text-base sm:text-lg lg:text-xl font-normal leading-relaxed text-zinc-200 tracking-wide">
                   Building web experiences for FinTech and Web3.
                 </p>
+                <div className="mt-7 flex flex-wrap items-center gap-3">
+                  <a href="#work" className="portfolio-primary-link group inline-flex min-h-12 items-center gap-5 rounded-full bg-lime-400 px-6 py-3 text-sm font-bold text-black">
+                    View projects <ArrowUpRight size={18} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </a>
+                  <a href="#contact" className="inline-flex min-h-12 items-center gap-3 rounded-full border border-white/25 px-6 py-3 text-sm font-bold text-white transition-colors hover:border-lime-400 hover:text-lime-400">
+                    Let’s talk <ArrowUpRight size={18} />
+                  </a>
+                </div>
+                <p className="mt-5 text-sm leading-relaxed text-zinc-400">Seeking frontend &amp; full-stack developer opportunities.</p>
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 1, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
                 className="hero-scroll"
@@ -166,7 +175,7 @@ export default function Home() {
 
           {/* The portrait follows the introduction in both visual and reading order. */}
           <motion.div
-            initial={{ opacity: 0, x: 60 }}
+            initial={{ opacity: 1, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="hero-portrait relative z-10 mt-9 aspect-[4/5] w-full max-w-[34rem] justify-self-end sm:mx-auto sm:max-w-[28rem] lg:mx-0 lg:mt-0 lg:max-w-[30rem]"
@@ -182,7 +191,7 @@ export default function Home() {
               />
             </div>
             <motion.div
-              initial={{ opacity: 0, scale: 0.5, rotate: -30 }}
+              initial={{ opacity: 1, scale: 1, rotate: -8 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
               transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
               className="hero-sticker pointer-events-none absolute bottom-4 left-4 z-20 h-20 w-20 sm:h-24 sm:w-24 lg:-left-10 lg:bottom-8 lg:h-28 lg:w-28"
@@ -200,6 +209,10 @@ export default function Home() {
 
         {/* The "Asymmetric Fragment" Section */}
         <section id="about" className="relative grid grid-cols-1 items-center gap-8 px-5 py-20 sm:gap-12 sm:px-8 sm:py-24 lg:min-h-[80dvh] lg:grid-cols-12 lg:gap-14 lg:py-28 lg:pl-40 lg:pr-24">
+
+          <h2 className="min-w-0 text-[clamp(2.5rem,11vw,4.5rem)] font-black leading-[0.95] lg:col-span-12 lg:text-[clamp(2.8rem,5.3vw,4.5rem)] xl:text-[clamp(2.8rem,12vw,4.5rem)]">
+            CRAFTING <br /> THE <span className="text-lime-400">UNEXPECTED</span>
+          </h2>
 
           {/* Left Side - Large Portrait with Parallax */}
           <div className="relative min-w-0 h-[24rem] sm:h-[30rem] lg:col-span-6 lg:h-[36rem]">
@@ -231,25 +244,25 @@ export default function Home() {
           {/* Right Side - Stacked Information & Floating Assets */}
           <div className="relative min-w-0 flex flex-col justify-center gap-8 sm:gap-10 lg:col-span-6 lg:gap-12">
             <div className="relative">
-              <h2 className="text-[clamp(2.5rem,11vw,4.5rem)] font-black mb-6 sm:mb-8 leading-[0.95] lg:text-[clamp(2.8rem,5.3vw,4.5rem)] xl:text-[clamp(2.8rem,12vw,4.5rem)]">
-                CRAFTING <br /> THE <span className="text-lime-400">UNEXPECTED</span>
-              </h2>
               <p className="text-zinc-400 text-base sm:text-lg leading-relaxed max-w-[68ch] lg:max-w-sm">
                 I don&apos;t just build websites; I create digital environments that feel alive. My process is a mix of rigorous research and expressive motion.
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-3">
-              {['HTML', 'CSS', 'JavaScript', 'React', 'Next.js', 'MongoDB', 'Typescript', 'Tailwind CSS'].map((skill, idx) => (
-                <motion.span
-                  key={skill}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.1 }}
-                  className="px-4 sm:px-6 py-3 bg-white/5 border border-white/10 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-lime-400 hover:text-black hover:border-lime-400 transition-all cursor-default"
-                >
-                  {skill}
-                </motion.span>
+            <div className="space-y-5" aria-label="Technical skills">
+              {[
+                { name: 'Languages', skills: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'Python'] },
+                { name: 'Frontend', skills: ['React', 'Next.js', 'Tailwind CSS'] },
+                { name: 'Database', skills: ['MongoDB'] },
+              ].map((group) => (
+                <div key={group.name} className="border-t border-white/10 pt-4">
+                  <h3 className="mb-3 text-xs font-medium tracking-widest text-zinc-400">{group.name}</h3>
+                  <ul className="flex flex-wrap gap-2">
+                    {group.skills.map((skill) => (
+                      <li key={skill} className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-bold text-zinc-200 transition-colors hover:border-lime-400 hover:text-lime-400">{skill}</li>
+                    ))}
+                  </ul>
+                </div>
               ))}
             </div>
 
@@ -318,7 +331,7 @@ export default function Home() {
             ].map((item, idx) => (
               <motion.div 
                 key={idx}
-                initial={{ opacity: 0, x: -40 }}
+                initial={false}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
                 viewport={{ once: true, margin: "-100px" }}
@@ -356,7 +369,7 @@ export default function Home() {
             <h2 className="text-[clamp(3rem,12vw,6rem)] font-black leading-none outline-text text-zinc-800">PROJECTS</h2>
             <div className="text-left sm:text-right">
               <p className="text-zinc-500 font-mono text-sm mb-2">001 — 004</p>
-              <p className="text-sm font-bold uppercase tracking-widest text-zinc-400">View All Projects</p>
+              <p className="max-w-64 text-sm leading-relaxed text-zinc-400">Explore the work, the technology, and what each project does.</p>
             </div>
           </div>
 
@@ -369,7 +382,8 @@ export default function Home() {
                 description: 'A dual-engine Web3 payment experience designed for multi-chain customer payments and autonomous AI agent payments, with non-custodial USDC settlement flows.',
                 tech: ['React', 'Vite', 'Vercel'],
                 image: '/higgspay.png',
-                link: 'https://higgs-website-orpin.vercel.app/'
+                link: 'https://higgs-website-orpin.vercel.app/',
+                contribution: 'Developed website experiences and worked on x402 payment flows at Bitechain Technology.'
               },
               {
                 title: 'WARRENTEXT',
@@ -414,20 +428,21 @@ export default function Home() {
                   }}
                   whileHover={{ backgroundColor: project.color, color: '#000' }}
                   transition={{ duration: 0.2, ease: "circOut" }}
-                  className="group flex w-full items-center justify-between py-8 sm:py-10 lg:py-12 px-3 sm:px-6 lg:px-8 cursor-pointer relative z-10 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-lime-400"
+                  className="group flex w-full items-center justify-between gap-4 py-8 sm:py-10 lg:py-12 px-3 sm:px-6 lg:px-8 cursor-pointer relative z-10 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-lime-400"
                 >
                   <div className="flex min-w-0 items-start lg:items-baseline gap-4 sm:gap-6 lg:gap-8">
                     <span className={`font-mono text-xs mt-3 lg:mt-0 transition-colors ${expandedProject === idx ? 'text-black opacity-100' : 'text-zinc-500 group-hover:text-black'}`}>0{idx + 1}</span>
                     <div className="flex min-w-0 flex-col gap-3 lg:gap-0">
-                      <h3 className="text-[clamp(1.6rem,8vw,3.75rem)] leading-[0.95] font-black break-words">{project.title}</h3>
-                      <span className={`lg:hidden font-bold text-sm tracking-[0.3em] uppercase transition-colors ${expandedProject === idx ? 'opacity-100 text-black' : 'opacity-40 group-hover:opacity-100 group-hover:text-black'}`}>
+                      <h3 className="text-[clamp(1.6rem,6vw,3.75rem)] leading-[0.95] font-black break-words">{project.title}</h3>
+                      <span className={`xl:hidden font-bold text-xs leading-relaxed tracking-[0.15em] uppercase transition-colors ${expandedProject === idx ? 'text-black' : 'text-zinc-400 group-hover:text-black'}`}>
                         {project.category}
                       </span>
                     </div>
                   </div>
-                  <span className={`hidden lg:block font-bold text-sm tracking-[0.3em] uppercase transition-colors ${expandedProject === idx ? 'opacity-100 text-black' : 'opacity-40 group-hover:opacity-100 group-hover:text-black'}`}>
+                  <span className={`hidden xl:block max-w-48 font-bold text-xs tracking-[0.15em] uppercase transition-colors ${expandedProject === idx ? 'opacity-100 text-black' : 'text-zinc-400 group-hover:text-black'}`}>
                     {project.category}
                   </span>
+                  <Plus aria-hidden="true" size={24} className={`shrink-0 transition-transform duration-300 ${expandedProject === idx ? 'rotate-45' : ''}`} />
                 </motion.button>
 
                 {/* Expandable Content Area */}
@@ -435,20 +450,26 @@ export default function Home() {
                   {expandedProject === idx && (
                     <motion.div
                       id={`project-details-${idx}`}
-                      initial={{ height: 0, opacity: 0 }}
+                      initial={idx === 0 ? false : { height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                       className="px-3 sm:px-6 lg:px-8 pb-10 sm:pb-12 overflow-hidden"
                     >
-                      <div className="flex flex-col gap-8 sm:gap-10 lg:gap-12 pt-7 sm:pt-8 border-t border-white/10">
+                      <div className="project-case-study grid min-w-0 gap-8 pt-7 sm:pt-8 border-t border-white/10 xl:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] xl:items-start xl:gap-10">
                         {/* Top Section: Details & Tech Stack */}
-                        <div className="flex flex-col md:flex-row justify-between items-start gap-8">
+                        <div className="min-w-0 flex flex-col items-start gap-7">
                           <div className="max-w-2xl">
-                            <h4 className="text-xl font-bold mb-4">Project Overview</h4>
+                            <h4 className="text-xl font-bold mb-4">{idx === 0 ? 'Payments for people & AI agents.' : 'Project overview'}</h4>
                             <p className="text-zinc-400 text-base sm:text-lg leading-relaxed mb-6 max-w-[68ch]">
                               {project.description}
                             </p>
+                            {project.contribution && (
+                              <div className="mb-6 border-t border-white/10 pt-5">
+                                <h4 className="mb-2 text-sm font-bold text-white">My contribution</h4>
+                                <p className="text-sm leading-relaxed text-zinc-400">{project.contribution}</p>
+                              </div>
+                            )}
                             {project.link && (
                               <a
                                 href={project.link}
@@ -462,8 +483,8 @@ export default function Home() {
                           </div>
 
                           <div>
-                            <h4 className="text-xs font-mono uppercase tracking-widest text-zinc-500 mb-4 md:text-right">Technologies Used</h4>
-                            <div className="flex flex-wrap gap-3 md:justify-end">
+                            <h4 className="text-xs font-mono uppercase tracking-widest text-zinc-400 mb-4">Built with</h4>
+                            <div className="flex flex-wrap gap-2">
                               {project.tech.map((techItem) => (
                                 <span key={techItem} className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-xs font-bold tracking-wider text-zinc-300">
                                   {techItem}
@@ -474,18 +495,23 @@ export default function Home() {
                         </div>
 
                         {/* Bottom Section: Image Container */}
-                        <div className="w-full relative rounded-2xl sm:rounded-3xl overflow-hidden bg-zinc-950 border border-white/10 group flex items-center justify-center p-2 sm:p-4 lg:p-8 shadow-2xl">
+                        <div className="project-preview order-first min-w-0 w-full relative rounded-2xl overflow-hidden bg-zinc-950 border border-white/10 group">
                           {/* High-end subtle grid background */}
                           <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:2rem_2rem]" />
-                          <div className="relative w-full aspect-[1708/820] z-10 overflow-hidden rounded-xl sm:rounded-2xl border border-white/5 shadow-2xl">
+                          <div className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3 text-xs text-zinc-400">
+                            <span className="flex gap-1.5" aria-hidden="true"><span className="h-1.5 w-1.5 rounded-full bg-pink" /><span className="h-1.5 w-1.5 rounded-full bg-yellow" /><span className="h-1.5 w-1.5 rounded-full bg-mint" /></span>
+                            <span className="truncate">{new URL(project.link).hostname}</span>
+                            <ExternalLink size={12} aria-hidden="true" />
+                          </div>
+                          <a href={project.link} target="_blank" rel="noopener noreferrer" aria-label={`Open ${project.title} website`} className="project-preview-image relative block w-full aspect-[1708/820] z-10 overflow-hidden">
                             <Image
                               src={project.image}
                               alt={project.title}
                               fill
                               sizes="(max-width: 639px) calc(100vw - 64px), (max-width: 1023px) calc(100vw - 112px), calc(100vw - 440px)"
-                              className="object-contain object-center opacity-90 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-700"
+                              className="object-contain object-center transition-transform duration-500 group-hover:scale-[1.025]"
                             />
-                          </div>
+                          </a>
                         </div>
                       </div>
                     </motion.div>
@@ -496,6 +522,36 @@ export default function Home() {
           </div>
         </section>
 
+        <section id="cv" aria-labelledby="cv-title" className="relative border-t border-white/10 px-5 py-20 sm:px-8 sm:py-24 lg:py-28 lg:pl-40 lg:pr-24">
+          <div className="mb-8 flex flex-col items-start justify-between gap-6 sm:mb-10 sm:flex-row sm:items-end">
+            <div>
+              <h2 id="cv-title" className="text-[clamp(3rem,12vw,6rem)] font-black leading-none outline-text text-zinc-800">MY CV</h2>
+              <p className="mt-4 text-sm leading-relaxed text-zinc-400">Read my CV below, or keep a copy for later.</p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <a href="/lim-jun-hao-resume.pdf?v=20261103" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center gap-2 rounded-full border border-white/25 px-5 py-3 text-sm font-bold transition-colors hover:border-lime-400 hover:text-lime-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lime-400">
+                Open PDF <ArrowUpRight size={18} aria-hidden="true" />
+              </a>
+              <a href="/lim-jun-hao-resume.pdf?v=20261103" download="Lim-Jun-Hao-Resume.pdf" className="portfolio-primary-link inline-flex min-h-12 items-center gap-2 rounded-full bg-lime-400 px-5 py-3 text-sm font-bold text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lime-400">
+                Download CV <Download size={18} aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+          <div className="overflow-hidden rounded-2xl border border-white/15 bg-zinc-900">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 px-4 py-3 text-xs text-zinc-400 sm:px-6">
+              <span>Lim Jun Hao — CV</span>
+              <span>1 page · PDF · 220 KB</span>
+            </div>
+            <div aria-label="CV document preview" className="max-h-[75svh] overflow-y-auto overscroll-y-contain p-2 sm:p-5 lg:max-h-[900px]" tabIndex={0}>
+              <div className="mx-auto max-w-[900px] space-y-4">
+                <a href="/lim-jun-hao-resume.pdf?v=20261103" target="_blank" rel="noopener noreferrer" aria-label="Open full CV PDF, preview page 1 of 1" className="block bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-400">
+                  <Image src="/cv-resume-preview.png" alt="Lim Jun Hao CV, page 1 of 1. Open the PDF to read or select the text." width={1190} height={1540} sizes="(max-width: 1023px) calc(100vw - 64px), 900px" className="h-auto w-full" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Contact Me Section */}
         <section id="contact" className="min-h-screen py-20 sm:py-24 lg:py-28 flex flex-col justify-center px-5 sm:px-8 lg:pl-40 lg:pr-24 relative border-t border-white/10 z-10">
           <div className="max-w-6xl w-full mx-auto">
@@ -503,19 +559,20 @@ export default function Home() {
             <div className="mb-10 sm:mb-12 lg:mb-14">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-3 h-3 rounded-full bg-lime-400 animate-pulse" />
-                <span className="font-mono text-xs uppercase tracking-[0.3em] text-lime-400 font-bold">AVAILABLE FOR WORK & PROJECTS</span>
+                <span className="text-xs uppercase tracking-[0.15em] text-lime-400 font-bold">OPEN TO DEVELOPER OPPORTUNITIES</span>
               </div>
               <h2 className="text-[clamp(2.8rem,10vw,5rem)] font-black leading-[0.98] tracking-[-0.04em]">
                 LET&apos;S BUILD <br />
                 <span className="text-zinc-800 outline-text">SOMETHING</span> TOGETHER
               </h2>
+              <p className="mt-6 max-w-xl text-base leading-relaxed text-zinc-400">Hiring for a frontend or full-stack role? I’d love to hear about your team and what you’re building.</p>
             </div>
 
             {/* Content Grid: Left Form, Right Details & HIRE ME badge */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
               {/* Left Side - Interactive Glassmorphic Form */}
               <motion.form
-                initial={{ opacity: 0, y: 40 }}
+                initial={false}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
@@ -527,8 +584,11 @@ export default function Home() {
 
                 <div className="relative grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-widest text-zinc-400 mb-2">01 / Your Name</label>
+                    <label htmlFor="contact-name" className="block text-xs font-mono uppercase tracking-widest text-zinc-400 mb-2">Your name</label>
                     <input
+                      id="contact-name"
+                      name="name"
+                      autoComplete="name"
                       type="text"
                       required
                       value={formData.name}
@@ -538,8 +598,11 @@ export default function Home() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-widest text-zinc-400 mb-2">02 / Email Address</label>
+                    <label htmlFor="contact-email" className="block text-xs font-mono uppercase tracking-widest text-zinc-400 mb-2">Email address</label>
                     <input
+                      id="contact-email"
+                      name="email"
+                      autoComplete="email"
                       type="email"
                       required
                       value={formData.email}
@@ -551,13 +614,15 @@ export default function Home() {
                 </div>
 
                 <div className="relative">
-                  <label className="block text-xs font-mono uppercase tracking-widest text-zinc-400 mb-2">03 / Project Details & Scope</label>
+                  <label htmlFor="contact-message" className="block text-xs font-mono uppercase tracking-widest text-zinc-400 mb-2">Your message</label>
                   <textarea
+                    id="contact-message"
+                    name="message"
                     rows={5}
                     required
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Tell me about your vision, timeline, and goals..."
+                    placeholder="Tell me about the role, your team, or an opportunity to work together…"
                     className="w-full bg-black/50 border border-white/10 rounded-2xl px-6 py-4 text-white placeholder:text-zinc-600 focus:outline-none focus:border-lime-400 focus:bg-white/5 transition-all font-medium resize-none"
                   />
                 </div>
@@ -577,7 +642,7 @@ export default function Home() {
               {/* Right Side - Direct Contact Details, Availability & Floating Badge */}
               <div className="lg:col-span-5 flex flex-col justify-between h-full gap-12">
                 <motion.div
-                  initial={{ opacity: 0, x: 40 }}
+                  initial={false}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
                   viewport={{ once: true }}
@@ -618,21 +683,22 @@ export default function Home() {
 
                 {/* HIRE ME Interactive Badge */}
                 <motion.div
-                  initial={{ scale: 0 }}
+                  initial={false}
                   whileInView={{ scale: 1 }}
                   transition={{ duration: 0.6, delay: 0.4, type: "spring" }}
                   viewport={{ once: true }}
                   className="self-center lg:self-end"
                 >
-                  <motion.div
+                  <motion.a
+                    href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'howwerd0898@gmail.com'}`}
+                    aria-label="Email Jun Hao about a developer opportunity"
                     whileHover={{ scale: 1.1, rotate: 10 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => alert('Let\'s connect! Drop me a message using the form.')}
                     className="w-32 h-32 md:w-48 md:h-48 bg-lime-400 rounded-full flex flex-col items-center justify-center text-black font-black cursor-pointer sticker-shadow"
                   >
                     <Sparkles className="w-6 h-6 md:w-8 md:h-8 mb-1 md:mb-2" />
                     <span className="text-sm md:text-xl tracking-wider">HIRE ME</span>
-                  </motion.div>
+                  </motion.a>
                 </motion.div>
               </div>
             </div>

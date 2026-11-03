@@ -8,7 +8,7 @@ export default function Navigation() {
     <>
       {/* Compact header stays available through tablet widths. */}
       <motion.header 
-        initial={{ y: -100 }}
+        initial={false}
         animate={{ y: 0 }}
         className="fixed top-0 left-0 w-full h-16 border-b border-white/10 z-50 bg-black/90 backdrop-blur-md flex items-center justify-between pl-5 pr-3 sm:px-6 lg:hidden"
         data-desktop-breakpoint={DESKTOP_NAV_BREAKPOINT}
@@ -18,7 +18,7 @@ export default function Navigation() {
         </div>
         
         <nav aria-label="Primary navigation" className="flex items-center gap-0.5 sm:gap-2">
-          {['Work', 'About', 'Contact'].map((item) => (
+          {['Work', 'About', 'CV', 'Contact'].map((item) => (
             <Link 
               key={item} 
               href={`#${item.toLowerCase()}`}
@@ -32,7 +32,7 @@ export default function Navigation() {
 
       {/* Desktop navigation rails */}
       <motion.aside 
-        initial={{ x: -100 }}
+        initial={false}
         animate={{ x: 0 }}
         className="hidden lg:flex fixed top-0 left-0 h-screen w-24 border-r border-white/10 z-50 bg-black flex-col items-center py-10"
       >
@@ -41,7 +41,7 @@ export default function Navigation() {
         </div>
         
         <nav aria-label="Primary navigation" className="flex-1 flex flex-col items-center justify-center gap-16">
-          {['Work', 'About', 'Contact'].map((item) => (
+          {['Work', 'About', 'CV', 'Contact'].map((item) => (
             <Link 
               key={item} 
               href={`#${item.toLowerCase()}`}
@@ -56,19 +56,25 @@ export default function Navigation() {
 
       {/* Right Social Bar (hidden on mobile) */}
       <motion.aside 
-        initial={{ x: 100 }}
+        initial={false}
         animate={{ x: 0 }}
         className="hidden lg:flex fixed top-0 right-0 h-screen w-16 z-50 flex-col items-center py-10 pointer-events-none"
       >
         <div className="flex-1" />
         <div className="flex flex-col items-center gap-8 pointer-events-auto">
-          {['TW', 'GH', 'LI'].map((social) => (
+          {[
+            { label: 'GH', name: 'GitHub', href: 'https://github.com/junhao788' },
+            { label: 'LI', name: 'LinkedIn', href: 'https://www.linkedin.com/in/limjunhao77' },
+          ].map((social) => (
             <a 
-              key={social} 
-              href="#" 
-              className="font-bold text-[10px] text-zinc-500 hover:text-white transition-colors"
+              key={social.name}
+              href={social.href}
+              aria-label={social.name}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex min-h-11 min-w-11 items-center justify-center font-bold text-[10px] text-zinc-400 hover:text-lime-400 transition-colors"
             >
-              {social}
+              {social.label}
             </a>
           ))}
           <div className="w-px h-24 bg-white/20 mt-4" />
